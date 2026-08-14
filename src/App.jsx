@@ -12,6 +12,17 @@ import ProjectDetailView from './components/ProjectDetailView'
 function App() {
   const [selectedProject, setSelectedProject] = useState(null)
 
+  const handleBackToProjects = () => {
+    setSelectedProject(null)
+
+    window.requestAnimationFrame(() => {
+      const projectsSection = document.getElementById('projects')
+      if (projectsSection) {
+        projectsSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    })
+  }
+
   return (
     <div className="min-h-screen bg-[#FDF6E9] text-[#1A1A1A] selection:bg-[#FFC72C] selection:text-[#1A1A1A]">
       <div className="background-grid"></div>
@@ -32,7 +43,7 @@ function App() {
 
       <main>
         {selectedProject ? (
-          <ProjectDetailView project={selectedProject} onBack={() => setSelectedProject(null)} />
+          <ProjectDetailView project={selectedProject} onBack={handleBackToProjects} />
         ) : (
           <>
             <HeroSection />

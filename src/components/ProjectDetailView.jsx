@@ -5,14 +5,14 @@ export default function ProjectDetailView({ project, onBack }) {
 
   return (
     <section className="w-full py-8 md:py-12">
-      <div className="mx-auto max-w-6xl px-4 md:px-6">
-        <button
-          onClick={onBack}
-          className="mb-6 inline-flex items-center border-3 border-black bg-[#fffdf9] px-4 py-2 font-black uppercase tracking-[0.12em] text-[#1A1A1A] shadow-[4px_4px_0_rgba(0,0,0,0.95)] transition hover:-translate-y-0.5"
-        >
-          ← Back to projects
-        </button>
+      <button
+        onClick={onBack}
+        className="fixed left-4 top-24 z-50 inline-flex items-center border-3 border-black bg-[#fffdf9] px-4 py-2 font-black uppercase tracking-[0.12em] text-[#1A1A1A] shadow-[4px_4px_0_rgba(0,0,0,0.95)] transition hover:-translate-y-0.5 md:left-6"
+      >
+        ← Back to projects
+      </button>
 
+      <div className="mx-auto max-w-6xl px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
