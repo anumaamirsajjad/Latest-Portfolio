@@ -5,7 +5,7 @@ const projects = [
     stack: 'React • Node.js • SQLite',
     summary: 'Animated ordering experience with live menu, cart flow, reservations, and secure admin controls for stock and revenue.',
     accent: 'bg-[#FFC72C]',
-    video: '/kebabistan.mp4',
+    video: 'https://res.cloudinary.com/wquyyo8n/video/upload/v1786720288/kebabistan.mp4',
     poster: '/K.jpg',
     tags: ['Responsive UI', 'Admin Dashboard', 'Inventory Logic', 'Reservations'],
     highlights: [
@@ -20,7 +20,7 @@ const projects = [
     stack: 'React • Express • FFmpeg',
     summary: 'Generated captioned reels from AI-created visuals, with fallback image generation and automated video stitching.',
     accent: 'bg-[#2A9D8F]',
-    video: '/reelgenerator.mp4',
+    video: 'https://res.cloudinary.com/wquyyo8n/video/upload/v1786723947/reelgenerator_1_1.mp4',
     poster: '/reelifywallpaper.png',
     tags: ['Gemini API', 'FFmpeg', 'Video Rendering', 'Automation'],
     highlights: [
@@ -35,7 +35,7 @@ const projects = [
     stack: 'Node.js • React • SQL',
     summary: 'Built a full-stack system for managing memberships, events, budgets, and role-based access for student communities.',
     accent: 'bg-[#A8D8EA]',
-    video: '/society management system.mp4',
+    video: 'https://res.cloudinary.com/wquyyo8n/video/upload/v1786724396/society_management_system_1_1_1.mp4',
     poster: '/societywallpaper.png',
     tags: ['Membership System', 'Budget Tracking', 'JWT Auth', 'Event Handling'],
     highlights: [
@@ -50,7 +50,7 @@ const projects = [
     stack: 'C++ • SQL',
     summary: 'Created a librarian/user dashboard for book search, borrowing, returns, and authentication workflows.',
     accent: 'bg-[#F4A6A0]',
-    video: '/lib management system.mp4',
+    video: 'https://res.cloudinary.com/wquyyo8n/video/upload/v1786720306/lib_management_system.mp4',
     poster: '/libwallpaper.png',
     tags: ['Database Design', 'User Roles', 'Authentication', 'Inventory'],
     highlights: [

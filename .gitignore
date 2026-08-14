@@ -1,11 +1,6 @@
-# Video files (too large for GitHub)
-*.mp4
-*.avi
-*.mov
-*.mkv
-*.webm
-*.wmv
-*.flv
+# Large local source videos (keep ignored unless you compress/host externally)
+public/reelgenerator.mp4
+public/society management system.mp4
 
 # Node modules
 node_modules/
