@@ -1,9 +1,24 @@
 import { motion } from 'framer-motion'
 
 export default function ProjectDetailView({ project, onBack }) {
+  const normalizeMediaPath = (value) => {
+    if (!value) return ''
+
+    const isAbsolute = /^(?:[a-z]+:)?\/\//i.test(value) || value.startsWith('data:') || value.startsWith('blob:')
+    const relativePath = isAbsolute ? value : value.replace(/^\/+/, '')
+    const baseResolved = isAbsolute ? relativePath : `${import.meta.env.BASE_URL}${relativePath}`
+
+    try {
+      // Decode first to avoid turning existing %20 into %2520 on re-encode.
+      return encodeURI(decodeURI(baseResolved))
+    } catch {
+      return encodeURI(baseResolved)
+    }
+  }
+
   const hasVideo = !!project.video && /\.(mp4|webm|mov|ogg)(\?.*)?$/i.test(project.video)
-  const videoSrc = project.video ? encodeURI(project.video) : ''
-  const mediaPoster = project.poster ? encodeURI(project.poster) : ''
+  const videoSrc = normalizeMediaPath(project.video)
+  const mediaPoster = normalizeMediaPath(project.poster)
 
   return (
     <section className="w-full py-8 md:py-12">

@@ -35,7 +35,7 @@ const projects = [
     stack: 'Node.js • React • SQL',
     summary: 'Built a full-stack system for managing memberships, events, budgets, and role-based access for student communities.',
     accent: 'bg-[#A8D8EA]',
-    video: '/society%20management%20system.mp4',
+    video: '/society management system.mp4',
     poster: '/societywallpaper.png',
     tags: ['Membership System', 'Budget Tracking', 'JWT Auth', 'Event Handling'],
     highlights: [
@@ -50,7 +50,7 @@ const projects = [
     stack: 'C++ • SQL',
     summary: 'Created a librarian/user dashboard for book search, borrowing, returns, and authentication workflows.',
     accent: 'bg-[#F4A6A0]',
-    video: '/lib%20management%20system.mp4',
+    video: '/lib management system.mp4',
     poster: '/libwallpaper.png',
     tags: ['Database Design', 'User Roles', 'Authentication', 'Inventory'],
     highlights: [
