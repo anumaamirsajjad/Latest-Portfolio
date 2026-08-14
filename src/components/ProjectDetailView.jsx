@@ -2,6 +2,8 @@ import { motion } from 'framer-motion'
 
 export default function ProjectDetailView({ project, onBack }) {
   const hasVideo = !!project.video && /\.(mp4|webm|mov|ogg)(\?.*)?$/i.test(project.video)
+  const videoSrc = project.video ? encodeURI(project.video) : ''
+  const mediaPoster = project.poster ? encodeURI(project.poster) : ''
 
   return (
     <section className="w-full py-8 md:py-12">
@@ -29,15 +31,32 @@ export default function ProjectDetailView({ project, onBack }) {
             <div className="self-start overflow-hidden border-3 border-black bg-[#111111] shadow-[6px_6px_0_rgba(0,0,0,0.95)]">
               <div className="aspect-video w-full bg-[#111111]">
                 {hasVideo ? (
-                  <video
-                    controls
-                    className="h-full w-full object-contain"
-                    poster={project.poster}
-                    src={project.video}
-                  />
+                  <>
+                    <video
+                      controls
+                      playsInline
+                      preload="metadata"
+                      className="h-full w-full object-contain"
+                      poster={mediaPoster}
+                    >
+                      <source src={videoSrc} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                    <div className="border-t-3 border-black bg-[#FDF6E9] px-3 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-[#1A1A1A]">
+                      If playback fails on mobile, open directly:{' '}
+                      <a
+                        href={videoSrc}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline underline-offset-2"
+                      >
+                        Open video
+                      </a>
+                    </div>
+                  </>
                 ) : (
                   <img
-                    src={project.poster || project.video}
+                    src={mediaPoster || videoSrc}
                     alt={project.name}
                     className="h-full w-full object-contain"
                   />
