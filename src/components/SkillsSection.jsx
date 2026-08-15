@@ -6,12 +6,12 @@ const skillGroups = [
   },
   {
     title: 'Web & Backend',
-    items: ['HTML', 'CSS', 'Node.js', 'Express.js', 'React', 'REST APIs'],
+    items: ['Node.js', 'Express.js', 'React', 'REST APIs', 'JWT Auth', 'RBAC'],
     accent: 'bg-[#A8D8EA]',
   },
   {
     title: 'Testing & QA',
-    items: ['Manual Testing', 'Automation Testing', 'API Testing', 'Regression', 'UI Testing', 'Page Object Model'],
+    items: ['Test Planning', 'Automation Testing', 'API Testing', 'Regression Testing', 'UI Testing', 'Page Object Model'],
     accent: 'bg-[#F4A6A0]',
   },
   {
@@ -21,7 +21,7 @@ const skillGroups = [
   },
   {
     title: 'AI & ML',
-    items: ['Deep Learning', 'RNN', 'CNN', 'TensorFlow/Keras'],
+    items: ['Deep Learning', 'LSTM Architectures', 'CNN Pipelines', 'TensorFlow/Keras', 'Model Benchmarking'],
     accent: 'bg-[#FFC72C]',
   },
   {

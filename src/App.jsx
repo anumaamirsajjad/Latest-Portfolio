@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import HeroSection from './components/HeroSection'
 import AboutSection from './components/AboutSection'
 import JourneySection from './components/JourneySection'
@@ -12,7 +12,40 @@ import ProjectDetailView from './components/ProjectDetailView'
 function App() {
   const [selectedProject, setSelectedProject] = useState(null)
 
+  useEffect(() => {
+    const handlePopState = (event) => {
+      setSelectedProject(event.state?.project ?? null)
+
+      if (!event.state?.project) {
+        window.requestAnimationFrame(() => {
+          const projectsSection = document.getElementById('projects')
+          if (projectsSection) {
+            projectsSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          }
+        })
+      }
+    }
+
+    window.addEventListener('popstate', handlePopState)
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState)
+    }
+  }, [])
+
+  const handleSelectProject = (project) => {
+    setSelectedProject(project)
+
+    const projectSlug = project.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+    window.history.pushState({ project }, '', `#project-${projectSlug}`)
+  }
+
   const handleBackToProjects = () => {
+    if (window.history.state?.project) {
+      window.history.back()
+      return
+    }
+
     setSelectedProject(null)
 
     window.requestAnimationFrame(() => {
@@ -50,7 +83,7 @@ function App() {
             <AboutSection />
             <JourneySection />
             <SkillsSection />
-            <ProjectsSection onSelectProject={setSelectedProject} />
+            <ProjectsSection onSelectProject={handleSelectProject} />
             <EducationSection />
             <AchievementsSection />
             <ContactSection />

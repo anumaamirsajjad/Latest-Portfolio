@@ -1,17 +1,10 @@
 const experiences = [
   {
-    title: 'Software Development Intern',
-    company: 'Pentaloop (Piron Labs), Lahore',
-    period: 'Jul 2025',
-    description: 'Built REST APIs and backend routes in Node.js/Express, and created Python automation for scraping and data collection workflows.',
-    color: 'bg-[#FFC72C]',
-  },
-  {
-    title: 'Offensive Security Intern',
-    company: 'Itsolera, Lahore',
-    period: 'Jun–Aug 2026',
-    description: 'Worked on a Python security tooling stack for recon, DNS, and web testing, contributing to reports, pytest coverage, and Docker deployment.',
-    color: 'bg-[#2A9D8F]',
+    title: 'Flutter Development Intern',
+    company: 'NextGen',
+    period: 'Aug 2026–Present',
+    description: 'Building reusable Flutter UI components, screen navigation, and state-based apps with Provider and REST API integration.',
+    color: 'bg-[#A8D8EA]',
   },
   {
     title: 'SQA Intern',
@@ -21,11 +14,18 @@ const experiences = [
     color: 'bg-[#F4A6A0]',
   },
   {
-    title: 'Flutter Development Intern',
-    company: 'NextGen',
-    period: 'Aug 2026–Present',
-    description: 'Building reusable Flutter UI components, screen navigation, and state-based apps with Provider and REST API integration.',
-    color: 'bg-[#A8D8EA]',
+    title: 'Offensive Security Intern',
+    company: 'Itsolera, Lahore',
+    period: 'Jun–Aug 2026',
+    description: 'Worked on a Python security tooling stack for recon, DNS, and web testing, contributing to reports, pytest coverage, and Docker deployment.',
+    color: 'bg-[#2A9D8F]',
+  },
+  {
+    title: 'Software Development Intern',
+    company: 'Pentaloop (Piron Labs), Lahore',
+    period: 'Jul 2025',
+    description: 'Built REST APIs and backend routes in Node.js/Express, and created Python automation for scraping and data collection workflows.',
+    color: 'bg-[#FFC72C]',
   },
 ]
 

@@ -2,11 +2,11 @@ import { motion } from 'framer-motion'
 
 const techList = [
   'C / C++ / Python',
-  'JavaScript / React',
-  'Node.js / Express',
-  'SQL / Databases',
-  'QA & Automation',
-  'AI / ML Basics',
+  'JavaScript / React Ecosystem',
+  'Node.js / Express Middleware',
+  'SQL Schema Design',
+  'QA Automation Pipelines',
+  'Deep Learning / CV',
 ]
 
 export default function AboutSection() {
