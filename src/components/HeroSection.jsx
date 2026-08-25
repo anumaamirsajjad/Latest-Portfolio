@@ -43,6 +43,14 @@ export default function HeroSection() {
               <div className="flex flex-wrap gap-3">
                 <a href="#projects" className="btn-primary">View projects</a>
                 <a href="#contact" className="btn-secondary">Let&apos;s connect</a>
+                <a
+                  href="/AnumAamir_resume.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-secondary"
+                >
+                  View Resume
+                </a>
               </div>
 
               <div className="flex flex-wrap gap-3 pt-2">
