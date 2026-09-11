@@ -1,35 +1,4 @@
-const experiences = [
-  {
-    title: 'Flutter Development Intern',
-    company: 'NextGen',
-    period: 'Aug 2026–Present',
-    description: 'Building reusable Flutter UI components, screen navigation, and state-based apps with Provider and REST API integration.',
-    color: 'bg-[#A8D8EA]',
-  },
-  {
-    title: 'SQA Intern',
-    company: 'Dafi Labs, Lahore',
-    period: 'Jul–Aug 2026',
-    description: 'Designed and executed manual and automation tests, built Playwright/Cypress suites, and created Postman API collections for validation.',
-    color: 'bg-[#F4A6A0]',
-  },
-  {
-    title: 'Offensive Security Intern',
-    company: 'Itsolera, Lahore',
-    period: 'Jun–Aug 2026',
-    description: 'Worked on a Python security tooling stack for recon, DNS, and web testing, contributing to reports, pytest coverage, and Docker deployment.',
-    color: 'bg-[#2A9D8F]',
-  },
-  {
-    title: 'Software Development Intern',
-    company: 'Pentaloop (Piron Labs), Lahore',
-    period: 'Jul 2025',
-    description: 'Built REST APIs and backend routes in Node.js/Express, and created Python automation for scraping and data collection workflows.',
-    color: 'bg-[#FFC72C]',
-  },
-]
-
-export default function JourneySection() {
+export default function JourneySection({ experiences }) {
   return (
     <section id="journey" className="w-full py-8 md:py-12">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
@@ -44,9 +13,12 @@ export default function JourneySection() {
             <div className="absolute left-4 top-0 hidden h-full w-1 bg-black md:block"></div>
             <div className="space-y-6">
               {experiences.map((job, index) => (
-                <div key={job.title} className="relative grid gap-4 md:grid-cols-[70px_1fr] md:items-start">
+                <div key={`${job.title}-${index}`} className="relative grid gap-4 md:grid-cols-[70px_1fr] md:items-start">
                   <div className="relative z-10 flex justify-center md:justify-start">
-                    <div className={`flex h-12 w-12 items-center justify-center border-3 border-black text-sm font-black shadow-[4px_4px_0_rgba(0,0,0,0.95)] ${job.color}`}>
+                    <div
+                      className="flex h-12 w-12 items-center justify-center border-3 border-black text-sm font-black shadow-[4px_4px_0_rgba(0,0,0,0.95)]"
+                      style={{ background: job.color }}
+                    >
                       {index + 1}
                     </div>
                   </div>

@@ -1,13 +1,8 @@
 import { useState } from 'react'
 
-const contactDetails = [
-  { label: 'Email', value: 'anumaamirsajjad@gmail.com', href: 'mailto:anumaamirsajjad@gmail.com', accent: '#FFC72C' },
-  { label: 'LinkedIn', value: 'linkedin.com/in/anumaamirsajjad', href: 'https://linkedin.com/in/anumaamirsajjad', accent: '#A8D8EA' },
-  { label: 'GitHub', value: 'github.com/anumaamirsajjad', href: 'https://github.com/anumaamirsajjad', accent: '#2A9D8F' },
-]
-
-export default function ContactSection() {
+export default function ContactSection({ contact }) {
   const [status, setStatus] = useState({ type: 'idle', message: '' })
+  const contactDetails = contact.details ?? []
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -17,7 +12,7 @@ export default function ContactSection() {
     const formData = new FormData(form)
 
     try {
-      const response = await fetch('https://formsubmit.co/ajax/anumaamirsajjad@gmail.com', {
+      const response = await fetch(`https://formsubmit.co/ajax/${contact.email}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -39,7 +34,7 @@ export default function ContactSection() {
       form.reset()
       setStatus({ type: 'success', message: 'Message sent successfully. I will get back to you soon.' })
     } catch (error) {
-      setStatus({ type: 'error', message: 'Something went wrong. Please email me directly at anumaamirsajjad@gmail.com.' })
+      setStatus({ type: 'error', message: `Something went wrong. Please email me directly at ${contact.email}.` })
     }
   }
 
@@ -56,7 +51,7 @@ export default function ContactSection() {
           <div className="grid gap-4 md:grid-cols-3">
             {contactDetails.map((item, index) => (
               <a
-                key={item.label}
+                key={`${item.label}-${index}`}
                 href={item.href}
                 target={item.href.startsWith('http') ? '_blank' : undefined}
                 rel={item.href.startsWith('http') ? 'noreferrer' : undefined}

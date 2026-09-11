@@ -1,15 +1,6 @@
 import { motion } from 'framer-motion'
 
-const techList = [
-  'C / C++ / Python',
-  'JavaScript / React Ecosystem',
-  'Node.js / Express Middleware',
-  'SQL Schema Design',
-  'QA Automation Pipelines',
-  'Deep Learning / CV',
-]
-
-export default function AboutSection() {
+export default function AboutSection({ about }) {
   return (
     <section id="about" className="w-full py-8 md:py-12">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
@@ -28,12 +19,9 @@ export default function AboutSection() {
               transition={{ duration: 0.45 }}
               className="space-y-4 text-base leading-8 text-[#2D2A28] md:text-lg"
             >
-              <p>
-                I’m a Computer Science undergraduate with hands-on experience across full-stack development, QA, and automation. I build clean web apps, work comfortably with backend and database logic, and enjoy turning ideas into practical products.
-              </p>
-              <p>
-                My work spans Node.js, Express, React, Python, SQL, and testing tools like Playwright, Selenium, and Postman. I also continue growing in AI/ML and enjoy solving problems from both engineering and product angles.
-              </p>
+              {(about.paragraphs ?? []).map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))}
             </motion.div>
 
             <motion.div
@@ -49,9 +37,9 @@ export default function AboutSection() {
               </div>
 
               <div className="grid grid-cols-2 gap-3">
-                {techList.map((item, index) => (
+                {(about.techList ?? []).map((item, index) => (
                   <motion.div
-                    key={item}
+                    key={`${item}-${index}`}
                     whileHover={{ rotate: index % 2 === 0 ? -2 : 2, scale: 1.02 }}
                     className={[
                       'border-3 border-black px-3 py-3 text-center text-sm font-bold text-[#1A1A1A]',

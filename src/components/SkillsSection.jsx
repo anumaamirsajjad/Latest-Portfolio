@@ -1,37 +1,4 @@
-const skillGroups = [
-  {
-    title: 'Languages',
-    items: ['C', 'C++', 'Python', 'JavaScript', 'Assembly', 'SQL'],
-    accent: 'bg-[#2A9D8F]',
-  },
-  {
-    title: 'Web & Backend',
-    items: ['Node.js', 'Express.js', 'React', 'REST APIs', 'JWT Auth', 'RBAC'],
-    accent: 'bg-[#A8D8EA]',
-  },
-  {
-    title: 'Testing & QA',
-    items: ['Test Planning', 'Automation Testing', 'API Testing', 'Regression Testing', 'UI Testing', 'Page Object Model'],
-    accent: 'bg-[#F4A6A0]',
-  },
-  {
-    title: 'Automation & Scraping',
-    items: ['BeautifulSoup', 'Requests', 'Selenium', 'Playwright', 'Cypress'],
-    accent: 'bg-[#F4845F]',
-  },
-  {
-    title: 'AI & ML',
-    items: ['Deep Learning', 'LSTM Architectures', 'CNN Pipelines', 'TensorFlow/Keras', 'Model Benchmarking'],
-    accent: 'bg-[#FFC72C]',
-  },
-  {
-    title: 'Tools',
-    items: ['VS Code', 'Git', 'Postman', 'Jira', 'Figma', 'FFmpeg'],
-    accent: 'bg-[#A8D8EA]',
-  },
-]
-
-export default function SkillsSection() {
+export default function SkillsSection({ skillGroups }) {
   return (
     <section id="skills" className="w-full py-8 md:py-12">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
@@ -45,16 +12,16 @@ export default function SkillsSection() {
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {skillGroups.map((group, index) => (
               <div
-                key={group.title}
+                key={`${group.title}-${index}`}
                 className="sticker-card p-4"
                 style={{ transform: `rotate(${index % 2 === 0 ? -1.4 : 1.2}deg)` }}
               >
-                <div className={`tag-label ${group.accent}`}>
+                <div className="tag-label" style={{ background: group.accent }}>
                   {group.title}
                 </div>
                 <div className="flex flex-wrap gap-2 pt-2">
-                  {group.items.map((item) => (
-                    <span key={item} className="badge-pill">
+                  {group.items.map((item, itemIndex) => (
+                    <span key={`${item}-${itemIndex}`} className="badge-pill">
                       {item}
                     </span>
                   ))}

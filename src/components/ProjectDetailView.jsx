@@ -80,7 +80,7 @@ export default function ProjectDetailView({ project, onBack }) {
             </div>
 
             <div className="space-y-4">
-              <div className={`tag-label ${project.accent}`}>
+              <div className="tag-label" style={{ background: project.accent }}>
                 {project.type}
               </div>
 
@@ -91,8 +91,8 @@ export default function ProjectDetailView({ project, onBack }) {
               <p className="text-lg leading-8 text-[#2D2A28]">{project.summary}</p>
 
               <div className="flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <span key={tag} className="badge-pill">
+                {(project.tags ?? []).map((tag, index) => (
+                  <span key={`${tag}-${index}`} className="badge-pill">
                     {tag}
                   </span>
                 ))}
@@ -100,9 +100,9 @@ export default function ProjectDetailView({ project, onBack }) {
 
               {project.links && project.links.length > 0 && (
                 <div className="flex flex-wrap gap-3">
-                  {project.links.map((link) => (
+                  {project.links.map((link, index) => (
                     <a
-                      key={link.label}
+                      key={`${link.label}-${index}`}
                       href={link.href}
                       target="_blank"
                       rel="noreferrer"
@@ -119,8 +119,8 @@ export default function ProjectDetailView({ project, onBack }) {
                   What I built
                 </h3>
                 <ul className="space-y-2 text-base leading-7 text-[#2D2A28]">
-                  {project.highlights.map((item) => (
-                    <li key={item} className="flex items-start gap-2">
+                  {(project.highlights ?? []).map((item, index) => (
+                    <li key={`${item}-${index}`} className="flex items-start gap-2">
                       <span className="mt-1 inline-block h-2.5 w-2.5 shrink-0 bg-[#FFC72C] ring-2 ring-black"></span>
                       <span>{item}</span>
                     </li>
