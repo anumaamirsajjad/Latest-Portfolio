@@ -6,7 +6,7 @@
     "headline": "Final-Year CS Student | Full-Stack Developer & QA Engineer",
     "tagline": "Computer Science undergraduate building thoughtful digital experiences, testing products with a QA mindset, and crafting scalable full-stack solutions.",
     "photo": "/profile.jpeg",
-    "resumeUrl": "/AnumAamir_resume.pdf",
+    "resumeUrl": "/uploads/1789231299138-anumaamir-resume.pdf",
     "badges": [
       "Developer",
       "QA + Automation"
@@ -42,7 +42,7 @@
     {
       "title": "Flutter Development Intern",
       "company": "NextGen",
-      "period": "Aug 2026–Sept 2026",
+      "period": "Aug 2026–Present",
       "description": "Building reusable Flutter UI components, screen navigation, and state-based apps with Provider and REST API integration.",
       "color": "#A8D8EA"
     },
@@ -141,31 +141,6 @@
     }
   ],
   "projects": [
-    {
-      "name": "Umeed",
-      "type": "Hope-Centred Mental Health First Aid Companion for Pakistan",
-      "stack": "Next.js • React • TypeScript • Node.js • Express • OpenRouter LLMs • Tailwind CSS",
-      "summary": "A mental health support companion that adapts to how each person says they want to cope: talking to family, seeing a professional, or coping on their own. It never guesses someone's culture from demographics. It pairs a warm conversational AI with a server-side crisis detector that doesn't depend on the AI's judgment, so someone in danger is never left inside a chat window.",
-      "accent": "#FFC72C",
-      "video": "",
-      "poster": "/uploads/1789230841436-umeed.png",
-      "tags": [
-        "Mental Health",
-        "Crisis Detection",
-        "Safety Planning",
-        "Multilingual NLP"
-      ],
-      "links": [
-        {
-          "label": "Click to try ",
-          "href": "https://umeed-murex.vercel.app/"
-        }
-      ],
-      "highlights": [
-        "Built a two-layer crisis safety net that runs on the server, alongside the AI rather than inside it. A pattern engine sorts messages into high-severity and warning language. A second AI classifier reads every message in parallel to catch indirect phrasings, and if that classifier ever fails, the message is treated as a crisis rather than ignored. When either layer triggers, the chat hands off to a full-screen \"Safety Mode\" with hotlines and a guided breathing exercise.",
-        "Designed for how Pakistanis actually text: a lightweight language detector tells apart English, Roman Urdu, Roman Punjabi and code-switched mixes (\"yar I'm just not feeling good today\"), and the companion replies in the same register. A carefully tuned system prompt forbids diagnosing anyone or claiming to replace therapy, and only adapts to preferences users state themselves."
-      ]
-    },
     {
       "name": "Kebabistan",
       "type": "Restaurant Platform",
