@@ -7,10 +7,21 @@
     "tagline": "Computer Science undergraduate building thoughtful digital experiences, testing products with a QA mindset, and crafting scalable full-stack solutions.",
     "photo": "/profile.jpeg",
     "resumeUrl": "/AnumAamir_resume.pdf",
-    "badges": ["Developer", "QA + Automation"],
+    "badges": [
+      "Developer",
+      "QA + Automation"
+    ],
     "socials": [
-      { "label": "LinkedIn", "href": "https://linkedin.com/in/anumaamirsajjad", "value": "linkedin.com/in/anumaamirsajjad" },
-      { "label": "GitHub", "href": "https://github.com/anumaamirsajjad", "value": "github.com/anumaamirsajjad" }
+      {
+        "label": "LinkedIn",
+        "href": "https://linkedin.com/in/anumaamirsajjad",
+        "value": "linkedin.com/in/anumaamirsajjad"
+      },
+      {
+        "label": "GitHub",
+        "href": "https://github.com/anumaamirsajjad",
+        "value": "github.com/anumaamirsajjad"
+      }
     ]
   },
   "about": {
@@ -31,7 +42,7 @@
     {
       "title": "Flutter Development Intern",
       "company": "NextGen",
-      "period": "Aug 2026–Present",
+      "period": "Aug 2026–Sept 2026",
       "description": "Building reusable Flutter UI components, screen navigation, and state-based apps with Provider and REST API integration.",
       "color": "#A8D8EA"
     },
@@ -58,14 +69,103 @@
     }
   ],
   "skills": [
-    { "title": "Languages", "items": ["C", "C++", "Python", "JavaScript", "Assembly", "SQL"], "accent": "#2A9D8F" },
-    { "title": "Web & Backend", "items": ["Node.js", "Express.js", "React", "REST APIs", "JWT Auth", "RBAC"], "accent": "#A8D8EA" },
-    { "title": "Testing & QA", "items": ["Test Planning", "Automation Testing", "API Testing", "Regression Testing", "UI Testing", "Page Object Model"], "accent": "#F4A6A0" },
-    { "title": "Automation & Scraping", "items": ["BeautifulSoup", "Requests", "Selenium", "Playwright", "Cypress"], "accent": "#F4845F" },
-    { "title": "AI & ML", "items": ["Deep Learning", "LSTM Architectures", "CNN Pipelines", "TensorFlow/Keras", "Model Benchmarking"], "accent": "#FFC72C" },
-    { "title": "Tools", "items": ["VS Code", "Git", "Postman", "Jira", "Figma", "FFmpeg"], "accent": "#A8D8EA" }
+    {
+      "title": "Languages",
+      "items": [
+        "C",
+        "C++",
+        "Python",
+        "JavaScript",
+        "Assembly",
+        "SQL"
+      ],
+      "accent": "#2A9D8F"
+    },
+    {
+      "title": "Web & Backend",
+      "items": [
+        "Node.js",
+        "Express.js",
+        "React",
+        "REST APIs",
+        "JWT Auth",
+        "RBAC"
+      ],
+      "accent": "#A8D8EA"
+    },
+    {
+      "title": "Testing & QA",
+      "items": [
+        "Test Planning",
+        "Automation Testing",
+        "API Testing",
+        "Regression Testing",
+        "UI Testing",
+        "Page Object Model"
+      ],
+      "accent": "#F4A6A0"
+    },
+    {
+      "title": "Automation & Scraping",
+      "items": [
+        "BeautifulSoup",
+        "Requests",
+        "Selenium",
+        "Playwright",
+        "Cypress"
+      ],
+      "accent": "#F4845F"
+    },
+    {
+      "title": "AI & ML",
+      "items": [
+        "Deep Learning",
+        "LSTM Architectures",
+        "CNN Pipelines",
+        "TensorFlow/Keras",
+        "Model Benchmarking"
+      ],
+      "accent": "#FFC72C"
+    },
+    {
+      "title": "Tools",
+      "items": [
+        "VS Code",
+        "Git",
+        "Postman",
+        "Jira",
+        "Figma",
+        "FFmpeg"
+      ],
+      "accent": "#A8D8EA"
+    }
   ],
   "projects": [
+    {
+      "name": "Umeed",
+      "type": "Hope-Centred Mental Health First Aid Companion for Pakistan",
+      "stack": "Next.js • React • TypeScript • Node.js • Express • OpenRouter LLMs • Tailwind CSS",
+      "summary": "A mental health support companion that adapts to how each person says they want to cope: talking to family, seeing a professional, or coping on their own. It never guesses someone's culture from demographics. It pairs a warm conversational AI with a server-side crisis detector that doesn't depend on the AI's judgment, so someone in danger is never left inside a chat window.",
+      "accent": "#FFC72C",
+      "video": "",
+      "poster": "/uploads/1789230841436-umeed.png",
+      "tags": [
+        "Mental Health",
+        "Crisis Detection",
+        "Safety Planning",
+        "Multilingual NLP"
+      ],
+      "links": [
+        {
+          "label": "Click to try ",
+          "href": "https://umeed-murex.vercel.app/"
+        }
+      ],
+      "highlights": [
+        "Built a two-layer crisis safety net that runs on the server, alongside the AI rather than inside it. A pattern engine sorts messages into high-severity and warning language. A second AI classifier reads every message in parallel to catch indirect phrasings, and if that classifier ever fails, the message is treated as a crisis rather than ignored. When either layer triggers, the chat hands off to a full-screen \"Safety Mode\" with hotlines and a guided breathing exercise.",
+        "Designed for how Pakistanis actually text: a lightweight language detector tells apart English, Roman Urdu, Roman Punjabi and code-switched mixes (\"yar I'm just not feeling good today\"), and the companion replies in the same register. A carefully tuned system prompt forbids diagnosing anyone or claiming to replace therapy, and only adapts to preferences users state themselves."
+      ]
+    },
     {
       "name": "Kebabistan",
       "type": "Restaurant Platform",
@@ -74,7 +174,12 @@
       "accent": "#FFC72C",
       "video": "https://res.cloudinary.com/wquyyo8n/video/upload/v1786720288/kebabistan.mp4",
       "poster": "/K.jpg",
-      "tags": ["Responsive UI", "Admin Dashboard", "Inventory Logic", "Reservations"],
+      "tags": [
+        "Responsive UI",
+        "Admin Dashboard",
+        "Inventory Logic",
+        "Reservations"
+      ],
       "links": [],
       "highlights": [
         "Built a restaurant landing page with motion-rich sections and add-to-cart flows.",
@@ -90,7 +195,12 @@
       "accent": "#2A9D8F",
       "video": "https://res.cloudinary.com/wquyyo8n/video/upload/v1786723947/reelgenerator_1_1.mp4",
       "poster": "/reelifywallpaper.png",
-      "tags": ["Gemini API", "FFmpeg", "Video Rendering", "Automation"],
+      "tags": [
+        "Gemini API",
+        "FFmpeg",
+        "Video Rendering",
+        "Automation"
+      ],
       "links": [],
       "highlights": [
         "Combined AI image generation with automated video assembly for reel creation.",
@@ -106,7 +216,12 @@
       "accent": "#A8D8EA",
       "video": "https://res.cloudinary.com/wquyyo8n/video/upload/v1786724396/society_management_system_1_1_1.mp4",
       "poster": "/societywallpaper.png",
-      "tags": ["Membership System", "Budget Tracking", "JWT Auth", "Event Handling"],
+      "tags": [
+        "Membership System",
+        "Budget Tracking",
+        "JWT Auth",
+        "Event Handling"
+      ],
       "links": [],
       "highlights": [
         "Created a relational data model for members, events, and society operations.",
@@ -122,7 +237,12 @@
       "accent": "#F4A6A0",
       "video": "https://res.cloudinary.com/wquyyo8n/video/upload/v1786720306/lib_management_system.mp4",
       "poster": "/libwallpaper.png",
-      "tags": ["Database Design", "User Roles", "Authentication", "Inventory"],
+      "tags": [
+        "Database Design",
+        "User Roles",
+        "Authentication",
+        "Inventory"
+      ],
       "links": [],
       "highlights": [
         "Developed separate interfaces for librarians and users with different access levels.",
@@ -138,7 +258,12 @@
       "accent": "#D8B4FE",
       "video": "",
       "poster": "/fooji.jpg",
-      "tags": ["UX Research", "Meal Planning", "Accessibility", "Dietary Profiles"],
+      "tags": [
+        "UX Research",
+        "Meal Planning",
+        "Accessibility",
+        "Dietary Profiles"
+      ],
       "links": [
         {
           "label": "Click to view prototype",
@@ -159,10 +284,21 @@
       "accent": "#BEE3DB",
       "video": "",
       "poster": "/terrarium.png",
-      "tags": ["Climate Modeling", "Digital Twin", "Lahore", "Environmental Data"],
+      "tags": [
+        "Climate Modeling",
+        "Digital Twin",
+        "Lahore",
+        "Environmental Data"
+      ],
       "links": [
-        { "label": "Click to view demo", "href": "https://terrarium-live.vercel.app/" },
-        { "label": "Click to view artifact", "href": "https://claude.ai/code/artifact/f6654fbc-0c07-4ea9-bdc7-06cbfb36c934" }
+        {
+          "label": "Click to view demo",
+          "href": "https://terrarium-live.vercel.app/"
+        },
+        {
+          "label": "Click to view artifact",
+          "href": "https://claude.ai/code/artifact/f6654fbc-0c07-4ea9-bdc7-06cbfb36c934"
+        }
       ],
       "highlights": [
         "Built a three-layer architecture: a unified state cube merging satellite and population datasets into one aligned data cube; physics cores including a LightGBM model for surface temperature change, an FFT-based air dispersion model for PM2.5, and an equity core mapping cooling impact by population decile; and a FastAPI backend serving a React/MapLibre/deck.gl frontend for live visualization.",
@@ -178,7 +314,12 @@
       "accent": "#F4845F",
       "video": "",
       "poster": "/flappywallpaper.jpg",
-      "tags": ["Game Physics", "Collision Detection", "Interrupts", "Optimization"],
+      "tags": [
+        "Game Physics",
+        "Collision Detection",
+        "Interrupts",
+        "Optimization"
+      ],
       "links": [],
       "highlights": [
         "Built game mechanics for gravity, collisions, and real-time score updates.",
@@ -194,7 +335,13 @@
       "accent": "#A8D8EA",
       "video": "",
       "poster": "/research.png",
-      "tags": ["Python", "TensorFlow/Keras", "Deep Learning", "LSTM", "CNN"],
+      "tags": [
+        "Python",
+        "TensorFlow/Keras",
+        "Deep Learning",
+        "LSTM",
+        "CNN"
+      ],
       "links": [],
       "highlights": [
         "LSTM on UCI-HAR: 93.32% test accuracy (within 92–95% published benchmark range), 561 sensor features, 6 activity classes",
@@ -232,9 +379,24 @@
   "contact": {
     "email": "anumaamirsajjad@gmail.com",
     "details": [
-      { "label": "Email", "value": "anumaamirsajjad@gmail.com", "href": "mailto:anumaamirsajjad@gmail.com", "accent": "#FFC72C" },
-      { "label": "LinkedIn", "value": "linkedin.com/in/anumaamirsajjad", "href": "https://linkedin.com/in/anumaamirsajjad", "accent": "#A8D8EA" },
-      { "label": "GitHub", "value": "github.com/anumaamirsajjad", "href": "https://github.com/anumaamirsajjad", "accent": "#2A9D8F" }
+      {
+        "label": "Email",
+        "value": "anumaamirsajjad@gmail.com",
+        "href": "mailto:anumaamirsajjad@gmail.com",
+        "accent": "#FFC72C"
+      },
+      {
+        "label": "LinkedIn",
+        "value": "linkedin.com/in/anumaamirsajjad",
+        "href": "https://linkedin.com/in/anumaamirsajjad",
+        "accent": "#A8D8EA"
+      },
+      {
+        "label": "GitHub",
+        "value": "github.com/anumaamirsajjad",
+        "href": "https://github.com/anumaamirsajjad",
+        "accent": "#2A9D8F"
+      }
     ]
   }
 }
