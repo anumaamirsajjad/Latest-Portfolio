@@ -1,10 +1,7 @@
-import { createContext, useCallback, useContext, useEffect, useId, useMemo, useRef, useState } from 'react'
-import { GITHUB_BRANCH, GITHUB_OWNER, GITHUB_REPO, MAX_UPLOAD_BYTES } from './config'
-import { describeError, fetchContent, saveContent, uploadFile, verifyToken } from './github'
+import { createContext, useContext, useEffect, useId, useMemo, useRef, useState } from 'react'
+import { describeError, MAX_UPLOAD_BYTES, saveContent, uploadFile } from './localApi'
 import { PALETTE, TABS } from './schema'
 
-const TOKEN_KEY = 'portfolio-admin-token'
-const TOKEN_URL = 'https://github.com/settings/personal-access-tokens/new'
 
 const inputClass =
   'w-full rounded-lg border-2 border-black bg-white px-3 py-2 text-sm font-medium text-[#1A1A1A] outline-none placeholder:text-[#8a847d] focus:ring-2 focus:ring-[#FFC72C]'
@@ -15,24 +12,6 @@ const iconButtonClass =
   'inline-flex h-7 w-7 items-center justify-center rounded-md border-2 border-black bg-white text-xs font-black text-[#1A1A1A] transition hover:bg-[#FFC72C] disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white'
 
 const UploadContext = createContext(null)
-
-function readStoredToken() {
-  try {
-    return localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY) || ''
-  } catch {
-    return ''
-  }
-}
-
-function storeToken(token, remember) {
-  try {
-    localStorage.removeItem(TOKEN_KEY)
-    sessionStorage.removeItem(TOKEN_KEY)
-    if (token) (remember ? localStorage : sessionStorage).setItem(TOKEN_KEY, token)
-  } catch {
-    // Storage can be unavailable (private mode); the session still works until the tab closes.
-  }
-}
 
 function StatusText({ status }) {
   if (!status) return null
@@ -112,12 +91,12 @@ function AssetField({ id, value, accept, onChange }) {
       return
     }
 
-    setStatus({ type: 'working', message: `Uploading ${file.name}…` })
+    setStatus({ type: 'working', message: `Copying ${file.name} into the project…` })
     try {
       const path = await upload(file)
       setPreviewFailed(false)
       onChange(path)
-      setStatus({ type: 'success', message: 'Uploaded. It appears on the live site after the next redeploy.' })
+      setStatus({ type: 'success', message: `Saved to public${path}`  })
     } catch (error) {
       setStatus({ type: 'error', message: describeError(error) })
     }
@@ -151,7 +130,7 @@ function AssetField({ id, value, accept, onChange }) {
           disabled={status?.type === 'working'}
           onClick={() => fileInput.current?.click()}
         >
-          Upload
+          Choose file
         </button>
         <input ref={fileInput} type="file" accept={accept} hidden onChange={handleFile} />
       </div>
@@ -378,130 +357,43 @@ function TabEditor({ tab, content, onChange }) {
   )
 }
 
-function LoginView({ onSubmit, status, working }) {
-  const [token, setToken] = useState('')
-  const [remember, setRemember] = useState(true)
-
-  return (
-    <form
-      className="space-y-5 p-5"
-      onSubmit={(event) => {
-        event.preventDefault()
-        if (token.trim()) onSubmit(token.trim(), remember)
-      }}
-    >
-      <div className="space-y-2">
-        <h3 className="text-2xl font-black">Owner sign-in</h3>
-        <p className="text-sm leading-6 text-[#2D2A28]">
-          Only a GitHub token with write access to <strong>{GITHUB_OWNER}/{GITHUB_REPO}</strong> can edit this portfolio. Changes are committed to the{' '}
-          <strong>{GITHUB_BRANCH}</strong> branch and go live when the site redeploys.
-        </p>
-      </div>
-
-      <ol className="list-decimal space-y-1 rounded-lg border-2 border-dashed border-black bg-white p-3 pl-8 text-xs leading-5 text-[#2D2A28]">
-        <li>
-          Open{' '}
-          <a href={TOKEN_URL} target="_blank" rel="noreferrer" className="font-bold underline">
-            GitHub → Fine-grained tokens → Generate new token
-          </a>
-          .
-        </li>
-        <li>
-          Repository access: <strong>Only select repositories</strong> → {GITHUB_REPO}.
-        </li>
-        <li>
-          Permissions → Repository → <strong>Contents: Read and write</strong>.
-        </li>
-        <li>Generate, copy the token and paste it below.</li>
-      </ol>
-
-      <div className="space-y-1.5">
-        <label htmlFor="admin-token" className={labelClass}>
-          GitHub token
-        </label>
-        <input
-          id="admin-token"
-          type="password"
-          autoComplete="off"
-          spellCheck={false}
-          className={inputClass}
-          placeholder="github_pat_…"
-          value={token}
-          onChange={(event) => setToken(event.target.value)}
-        />
-      </div>
-
-      <label className="flex items-center gap-2 text-xs font-bold">
-        <input type="checkbox" checked={remember} onChange={(event) => setRemember(event.target.checked)} className="h-4 w-4 accent-black" />
-        Remember on this device
-      </label>
-
-      <button type="submit" className={`${buttonClass} w-full bg-[#FFC72C] py-3`} disabled={working || !token.trim()}>
-        {working ? 'Checking…' : 'Unlock editor'}
-      </button>
-
-      <StatusText status={status} />
-    </form>
-  )
-}
-
 export default function AdminPanel({ content, onChange, onClose }) {
-  const [token, setToken] = useState(readStoredToken)
-  const [login, setLogin] = useState('')
-  // locked → working → ready | failed
-  const [phase, setPhase] = useState(() => (readStoredToken() ? 'working' : 'locked'))
-  const [published, setPublished] = useState(null)
-  const [sha, setSha] = useState(null)
+  const [savedContent, setSavedContent] = useState(content)
   const [activeTab, setActiveTab] = useState(TABS[0].key)
   const [status, setStatus] = useState(null)
-  const [commitMessage, setCommitMessage] = useState('')
-  const [publishing, setPublishing] = useState(false)
+  const [saving, setSaving] = useState(false)
 
-  const dirty = useMemo(() => published !== null && JSON.stringify(content) !== JSON.stringify(published), [content, published])
+  const dirty = useMemo(() => JSON.stringify(content) !== JSON.stringify(savedContent), [content, savedContent])
+  const tab = TABS.find((item) => item.key === activeTab) ?? TABS[0]
 
-  const loadLatest = useCallback(
-    async (activeToken) => {
-      setPhase('working')
-      const latest = await fetchContent(activeToken)
-      setPublished(latest.content)
-      setSha(latest.sha)
-      onChange(latest.content)
-      setPhase('ready')
-    },
-    [onChange],
-  )
+  const save = async () => {
+    const snapshot = content
+    setSaving(true)
+    setStatus({ type: 'working', message: 'Saving…' })
+    try {
+      await saveContent(snapshot)
+      setSavedContent(snapshot)
+      setStatus({ type: 'success', message: 'Saved to src/content.json. Run "npm run publish" to put it online.' })
+    } catch (error) {
+      setStatus({ type: 'error', message: describeError(error) })
+    } finally {
+      setSaving(false)
+    }
+  }
 
-  const connect = useCallback(
-    async (candidate, remember) => {
-      setPhase('working')
-      setStatus(null)
-      try {
-        const user = await verifyToken(candidate)
-        if (remember !== undefined) storeToken(candidate, remember)
-        setToken(candidate)
-        setLogin(user.login)
-        await loadLatest(candidate)
-      } catch (error) {
-        const rejected = error.status === 401 || error.status === 403
-        if (rejected) {
-          storeToken('', false)
-          setToken('')
-        }
-        // A fresh sign-in (remember given) goes back to the form; a resumed session can retry.
-        setPhase(rejected || remember !== undefined ? 'locked' : 'failed')
-        setStatus({ type: 'error', message: describeError(error) })
-      }
-    },
-    [loadLatest],
-  )
-
-  // Resume a remembered session.
-  const resumed = useRef(false)
+  // Ctrl/Cmd+S saves, like any editor.
+  const saveRef = useRef(save)
+  saveRef.current = save
   useEffect(() => {
-    if (resumed.current || !token) return
-    resumed.current = true
-    connect(token)
-  }, [connect, token])
+    const onKeyDown = (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') {
+        event.preventDefault()
+        saveRef.current()
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [])
 
   useEffect(() => {
     if (!dirty) return undefined
@@ -513,66 +405,22 @@ export default function AdminPanel({ content, onChange, onClose }) {
     return () => window.removeEventListener('beforeunload', warn)
   }, [dirty])
 
-  const confirmDiscard = () => !dirty || window.confirm('Discard your unpublished changes?')
-
-  const handleClose = () => {
-    if (!confirmDiscard()) return
-    if (dirty) onChange(published)
-    onClose()
-  }
-
-  const handleSignOut = () => {
-    if (!confirmDiscard()) return
-    if (dirty) onChange(published)
-    storeToken('', false)
-    setToken('')
-    setLogin('')
-    setPublished(null)
-    setSha(null)
-    setStatus(null)
-    setPhase('locked')
-  }
-
-  const handleReload = async () => {
-    if (!confirmDiscard()) return
-    setStatus(null)
-    try {
-      await loadLatest(token)
-      setStatus({ type: 'success', message: 'Loaded the latest version from GitHub.' })
-    } catch (error) {
-      setPhase('failed')
-      setStatus({ type: 'error', message: describeError(error) })
-    }
-  }
+  const confirmDiscard = () => !dirty || window.confirm('Discard your unsaved changes?')
 
   const handleDiscard = () => {
     if (!confirmDiscard()) return
-    onChange(published)
+    onChange(savedContent)
     setStatus(null)
   }
 
-  const handlePublish = async () => {
-    const snapshot = content
-    setPublishing(true)
-    setStatus({ type: 'working', message: 'Publishing to GitHub…' })
-    try {
-      const newSha = await saveContent(token, snapshot, sha, commitMessage.trim() || 'Update portfolio content')
-      setSha(newSha)
-      setPublished(snapshot)
-      setCommitMessage('')
-      setStatus({ type: 'success', message: 'Published! The live site updates once it redeploys (usually a minute or two).' })
-    } catch (error) {
-      setStatus({ type: 'error', message: describeError(error) })
-    } finally {
-      setPublishing(false)
-    }
+  const handleClose = () => {
+    if (!confirmDiscard()) return
+    if (dirty) onChange(savedContent)
+    onClose()
   }
 
-  const upload = useCallback((file) => uploadFile(token, file), [token])
-  const tab = TABS.find((item) => item.key === activeTab) ?? TABS[0]
-
   return (
-    <UploadContext.Provider value={upload}>
+    <UploadContext.Provider value={uploadFile}>
       <aside
         role="dialog"
         aria-label="Portfolio editor"
@@ -582,93 +430,44 @@ export default function AdminPanel({ content, onChange, onClose }) {
           <div className="min-w-0">
             <p className="text-[10px] font-black uppercase tracking-[0.2em]">Portfolio editor</p>
             <p className="truncate text-sm font-bold">
-              {phase === 'ready' ? (
-                <>
-                  Signed in as <strong>{login}</strong>
-                  {dirty && <span className="ml-2 rounded-full border-2 border-black bg-white px-2 text-[10px] font-black uppercase">Unsaved</span>}
-                </>
-              ) : (
-                'Locked'
-              )}
+              Editing src/content.json
+              {dirty && <span className="ml-2 rounded-full border-2 border-black bg-white px-2 text-[10px] font-black uppercase">Unsaved</span>}
             </p>
           </div>
-          <div className="flex shrink-0 items-center gap-2">
-            {(phase === 'ready' || phase === 'failed') && (
-              <>
-                <button type="button" className={`${buttonClass} bg-white px-2 py-1`} onClick={handleReload}>
-                  Reload
-                </button>
-                <button type="button" className={`${buttonClass} bg-white px-2 py-1`} onClick={handleSignOut}>
-                  Sign out
-                </button>
-              </>
-            )}
-            <button type="button" aria-label="Close editor" className={`${iconButtonClass} h-9 w-9 text-base`} onClick={handleClose}>
-              ✕
-            </button>
-          </div>
+          <button type="button" aria-label="Close editor" className={`${iconButtonClass} h-9 w-9 text-base`} onClick={handleClose}>
+            ✕
+          </button>
         </header>
 
-        {phase === 'locked' && (
-          <div className="flex-1 overflow-y-auto">
-            <LoginView onSubmit={connect} status={status} working={false} />
-          </div>
-        )}
+        <nav className="flex gap-2 overflow-x-auto border-b-2 border-black px-4 py-3" aria-label="Sections">
+          {TABS.map((item) => (
+            <button
+              key={item.key}
+              type="button"
+              aria-current={item.key === activeTab ? 'page' : undefined}
+              onClick={() => setActiveTab(item.key)}
+              className={`${buttonClass} shrink-0 px-2.5 py-1.5 ${item.key === activeTab ? 'bg-[#1A1A1A] !text-white' : 'bg-white'}`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
 
-        {phase === 'working' && (
-          <div className="flex flex-1 items-center justify-center p-6 text-sm font-black uppercase tracking-[0.16em]">Loading latest content…</div>
-        )}
+        <div className="flex-1 overflow-y-auto p-4">
+          <TabEditor key={tab.key} tab={tab} content={content} onChange={onChange} />
+        </div>
 
-        {phase === 'failed' && (
-          <div className="flex-1 space-y-4 p-5">
-            <StatusText status={status} />
-            <button type="button" className={`${buttonClass} bg-[#FFC72C]`} onClick={() => connect(token)}>
-              Try again
+        <footer className="space-y-3 border-t-2 border-black bg-[#FFFDF9] p-4">
+          <StatusText status={status} />
+          <div className="flex gap-2">
+            <button type="button" className={`${buttonClass} flex-1 bg-white`} disabled={!dirty || saving} onClick={handleDiscard}>
+              Discard
+            </button>
+            <button type="button" className={`${buttonClass} flex-[2] bg-[#2A9D8F] py-3 !text-white`} disabled={!dirty || saving} onClick={save}>
+              {saving ? 'Saving…' : 'Save changes'}
             </button>
           </div>
-        )}
-
-        {phase === 'ready' && (
-          <>
-            <nav className="flex gap-2 overflow-x-auto border-b-2 border-black px-4 py-3" aria-label="Sections">
-              {TABS.map((item) => (
-                <button
-                  key={item.key}
-                  type="button"
-                  aria-current={item.key === activeTab ? 'page' : undefined}
-                  onClick={() => setActiveTab(item.key)}
-                  className={`${buttonClass} shrink-0 px-2.5 py-1.5 ${item.key === activeTab ? 'bg-[#1A1A1A] !text-white' : 'bg-white'}`}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </nav>
-
-            <div className="flex-1 overflow-y-auto p-4">
-              <TabEditor key={tab.key} tab={tab} content={content} onChange={onChange} />
-            </div>
-
-            <footer className="space-y-3 border-t-2 border-black bg-[#FFFDF9] p-4">
-              <StatusText status={status} />
-              <input
-                type="text"
-                aria-label="Describe your change (optional)"
-                className={inputClass}
-                placeholder="What changed? (optional)"
-                value={commitMessage}
-                onChange={(event) => setCommitMessage(event.target.value)}
-              />
-              <div className="flex gap-2">
-                <button type="button" className={`${buttonClass} flex-1 bg-white`} disabled={!dirty || publishing} onClick={handleDiscard}>
-                  Discard
-                </button>
-                <button type="button" className={`${buttonClass} flex-[2] bg-[#2A9D8F] py-3 !text-white`} disabled={!dirty || publishing} onClick={handlePublish}>
-                  {publishing ? 'Publishing…' : 'Publish changes'}
-                </button>
-              </div>
-            </footer>
-          </>
-        )}
+        </footer>
       </aside>
     </UploadContext.Provider>
   )

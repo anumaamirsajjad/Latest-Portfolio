@@ -33,6 +33,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Keep section headings clear of the sticky header when jumping to them. */
+section[id] {
+  scroll-margin-top: 84px;
+}
+
 body {
   margin: 0;
   min-width: 320px;

@@ -1,8 +1,9 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { contentEditor } from './plugins/content-editor.js'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), contentEditor()],
   server: {
     host: '0.0.0.0',
     port: 3000,

@@ -10,24 +10,34 @@ import ContactSection from './components/ContactSection'
 import ProjectDetailView from './components/ProjectDetailView'
 import initialContent from './content.json'
 
-// Loaded only when the editor is opened, so visitors never download it.
-const AdminPanel = lazy(() => import('./admin/AdminPanel'))
+// The editor only exists while running `npm run dev` on your own machine.
+// In a production build this is false, so the code below is stripped out entirely.
+const canEdit = import.meta.env.DEV
+const AdminPanel = canEdit ? lazy(() => import('./admin/AdminPanel')) : null
 
 const ADMIN_HASH = '#admin'
 
 function App() {
   const [content, setContent] = useState(initialContent)
   const [selectedProject, setSelectedProject] = useState(null)
-  const [adminOpen, setAdminOpen] = useState(() => window.location.hash === ADMIN_HASH)
+  const [adminOpen, setAdminOpen] = useState(() => canEdit && window.location.hash === ADMIN_HASH)
   const logoClicks = useRef([])
+
+  // Chrome fires popstate for ordinary in-page "#section" links too, so only
+  // react when we are actually leaving a project detail view.
+  const selectedProjectRef = useRef(null)
+  selectedProjectRef.current = selectedProject
 
   useEffect(() => {
     const handlePopState = (event) => {
       if (window.location.hash === ADMIN_HASH) return
 
-      setSelectedProject(event.state?.project ?? null)
+      const project = event.state?.project ?? null
+      if (!project && !selectedProjectRef.current) return
 
-      if (!event.state?.project) {
+      setSelectedProject(project)
+
+      if (!project) {
         window.requestAnimationFrame(() => {
           const projectsSection = document.getElementById('projects')
           if (projectsSection) {
@@ -38,7 +48,7 @@ function App() {
     }
 
     const handleHashChange = () => {
-      if (window.location.hash === ADMIN_HASH) setAdminOpen(true)
+      if (canEdit && window.location.hash === ADMIN_HASH) setAdminOpen(true)
     }
 
     window.addEventListener('popstate', handlePopState)
@@ -52,6 +62,7 @@ function App() {
 
   // Hidden entry point: triple-click (or triple-tap) the logo.
   const handleLogoClick = () => {
+    if (!canEdit) return
     const now = Date.now()
     logoClicks.current = [...logoClicks.current.filter((time) => now - time < 800), now]
     if (logoClicks.current.length >= 3) {
@@ -133,7 +144,7 @@ function App() {
         )}
       </main>
 
-      {adminOpen && (
+      {canEdit && adminOpen && (
         <Suspense fallback={null}>
           <AdminPanel content={content} onChange={setContent} onClose={handleCloseAdmin} />
         </Suspense>
